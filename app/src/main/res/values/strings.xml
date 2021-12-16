@@ -3,4 +3,5 @@
     <string name="permission_title">Permission required</string>
     <string name="permission_message">Grant this app permission via ADB:\n\nadb shell pm grant com.draco.pdnsqs android.permission.WRITE_SECURE_SETTINGS</string>
     <string name="permission_dismiss">Dismiss</string>
+    <string name="permission_copy">Copy</string>
 </resources>
