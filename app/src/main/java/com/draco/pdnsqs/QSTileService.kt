@@ -41,8 +41,15 @@ class QSTileService : TileService() {
 
     private fun updateState() {
         qsTile.state = when (secureSettings.state()) {
-            true -> Tile.STATE_ACTIVE
-            false -> Tile.STATE_INACTIVE
+            SecureSettings.ON   -> Tile.STATE_ACTIVE
+            SecureSettings.AUTO -> Tile.STATE_ACTIVE
+            SecureSettings.OFF  -> Tile.STATE_INACTIVE
+        }
+
+        qsTile.label = when (secureSettings.state()) {
+            SecureSettings.ON   -> "On"
+            SecureSettings.AUTO -> "Auto"
+            SecureSettings.OFF  -> "Off"
         }
 
         qsTile.updateTile()
@@ -61,7 +68,13 @@ class QSTileService : TileService() {
             return
         }
 
-        secureSettings.togglePDNS(qsTile.state == Tile.STATE_INACTIVE)
+        var newState = when (secureSettings.state()) {
+            SecureSettings.ON   -> SecureSettings.AUTO
+            SecureSettings.AUTO -> SecureSettings.OFF
+            SecureSettings.OFF  -> SecureSettings.ON
+        }
+
+        secureSettings.togglePDNS(newState)
         updateState()
     }
 }
