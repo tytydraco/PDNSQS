@@ -8,7 +8,7 @@ import android.provider.Settings
 class SecureSettings(private val context: Context) {
     companion object {
         const val SETTINGS_GLOBAL_PRIVATE_DNS_MODE = "private_dns_mode"
-        const val ON = "hostnane"
+        const val ON = "hostname"
         const val AUTO = "opportunistic"
         const val OFF = "off"
     }
@@ -24,7 +24,7 @@ class SecureSettings(private val context: Context) {
         )
     }
 
-    fun state() = Settings.Global.getString(
+    fun state(): String = Settings.Global.getString(
         context.contentResolver,
         SETTINGS_GLOBAL_PRIVATE_DNS_MODE
     )

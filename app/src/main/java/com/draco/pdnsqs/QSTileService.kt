@@ -1,5 +1,6 @@
 package com.draco.pdnsqs
 
+import android.os.Build
 import android.app.AlertDialog
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -44,12 +45,21 @@ class QSTileService : TileService() {
             SecureSettings.ON   -> Tile.STATE_ACTIVE
             SecureSettings.AUTO -> Tile.STATE_ACTIVE
             SecureSettings.OFF  -> Tile.STATE_INACTIVE
+            else                -> Tile.STATE_INACTIVE
         }
 
-        qsTile.label = when (secureSettings.state()) {
-            SecureSettings.ON   -> "On"
+        val state = when (secureSettings.state()) {
+            SecureSettings.ON -> "On"
             SecureSettings.AUTO -> "Auto"
-            SecureSettings.OFF  -> "Off"
+            SecureSettings.OFF -> "Off"
+            else -> "Unknown"
+        }
+
+        if (Build.VERSION.SDK_INT >= 29) {
+            qsTile.subtitle = state
+        } else {
+            // Android < 10 does not support subtitle (secondary label), so use label
+            qsTile.label = "PDNS (${state})"
         }
 
         qsTile.updateTile()
@@ -68,10 +78,11 @@ class QSTileService : TileService() {
             return
         }
 
-        var newState = when (secureSettings.state()) {
+        val newState = when (secureSettings.state()) {
             SecureSettings.ON   -> SecureSettings.AUTO
             SecureSettings.AUTO -> SecureSettings.OFF
             SecureSettings.OFF  -> SecureSettings.ON
+            else                -> SecureSettings.ON
         }
 
         secureSettings.togglePDNS(newState)
