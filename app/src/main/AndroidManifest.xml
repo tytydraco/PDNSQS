@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         tools:targetApi="31">
         <service android:name=".QSTileService"
-            android:label="@string/app_name"
+            android:label="@string/tile_label"
             android:icon="@drawable/ic_baseline_http_24"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
             android:exported="true">
