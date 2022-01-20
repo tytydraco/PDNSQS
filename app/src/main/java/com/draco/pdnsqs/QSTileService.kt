@@ -42,17 +42,17 @@ class QSTileService : TileService() {
 
     private fun updateState() {
         qsTile.state = when (secureSettings.state()) {
-            SecureSettings.ON   -> Tile.STATE_ACTIVE
             SecureSettings.AUTO -> Tile.STATE_ACTIVE
+            SecureSettings.ON   -> Tile.STATE_ACTIVE
             SecureSettings.OFF  -> Tile.STATE_INACTIVE
             else                -> Tile.STATE_INACTIVE
         }
 
         val state = when (secureSettings.state()) {
-            SecureSettings.ON -> "On"
             SecureSettings.AUTO -> "Auto"
-            SecureSettings.OFF -> "Off"
-            else -> "Unknown"
+            SecureSettings.ON   -> "On"
+            SecureSettings.OFF  -> "Off"
+            else                -> "Unknown"
         }
 
         if (Build.VERSION.SDK_INT >= 29) {
@@ -79,9 +79,9 @@ class QSTileService : TileService() {
         }
 
         val newState = when (secureSettings.state()) {
-            SecureSettings.ON   -> SecureSettings.AUTO
-            SecureSettings.AUTO -> SecureSettings.OFF
-            SecureSettings.OFF  -> SecureSettings.ON
+            SecureSettings.AUTO -> SecureSettings.ON
+            SecureSettings.ON   -> SecureSettings.OFF
+            SecureSettings.OFF  -> SecureSettings.AUTO
             else                -> SecureSettings.ON
         }
 
